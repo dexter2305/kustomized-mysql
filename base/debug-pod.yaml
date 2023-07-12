@@ -1,0 +1,11 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: debug-pod
+spec:
+  containers:
+  - name: debug-pod
+    image: alpine
+    command:
+    - sleep 
+    - 15m

@@ -1,0 +1,15 @@
+resources:
+- statefulset.yaml
+- mysql-readonly-service.yaml
+- lb.yaml
+- debug-pod.yaml
+
+namespace: mysql
+
+commonLabels:
+  app: mysql
+
+secretGenerator:
+- name: mysql-secrets
+  envs:
+  - passwords.txt

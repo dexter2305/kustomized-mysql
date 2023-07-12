@@ -1,0 +1,43 @@
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: mysql-server
+spec:
+  serviceName: mysql-readonly
+  template:
+    spec:
+      containers:
+      - name: mysql-server
+        image: mysql:5.7
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom: 
+            secretKeyRef: 
+              name: mysql-secrets
+              key: root
+        - name: MYSQL_DATABASE
+          value: db892085391
+        - name: MYSQL_USER
+          value: b2b
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secrets
+              key: b2b
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/mysql
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: 
+      - ReadWriteOnce
+      storageClassName: local-path
+      resources:
+        requests:
+          storage: 150Mi
